@@ -44,7 +44,7 @@ pub struct VecGraph {
 }
 
 impl VecGraph {
-    // returns a new instance of OneDGraph
+    // returns a new instance of VecGraph
     pub fn new(vec_graph: Vec<i32>, col_num: usize) -> VecGraph {
         VecGraph {vec_graph, col_num}
     }
