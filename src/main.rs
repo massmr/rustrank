@@ -4,33 +4,25 @@
 
 mod graph;
 mod pagerank;
-use crate::graph::{MatrixGraph, VecGraph};
+mod file;
+use crate::graph::MatrixGraph;
 use crate::pagerank::MatrixRank;
+use crate::file::read_csv;
+use std::error::Error;
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
+    // Lire le fichier CSV et créer une matrice d'adjacence
+    let file_path = "assets/data/sample1.csv";
+    let matrix = read_csv(file_path)?;
 
-    // Create a matrix graph
-    // i as column and j as row
-    let matrix_graph = MatrixGraph::new(vec![
-        vec![0, 1, 1, 0],
-        vec![1, 0, 1, 0],
-        vec![0, 1, 0, 1],
-        vec![0, 0, 1, 0],
-    ]);
+    // Créer un graphe à partir de la matrice d'adjacence
+    let matrix_graph = MatrixGraph::new(matrix);
     println!("Matrix graph :");
     matrix_graph.display();
     
-    // Calculate MatrixGraph page rank
+    // Calculer le PageRank pour le graphe
     let matrix_rank = MatrixRank::new(matrix_graph, 0.85, 100, 0.0001);
     matrix_rank.page_rank();
 
-    let vec_graph = VecGraph::new(
-        vec![
-         0, 1, 1, 0,
-         1, 0, 1, 0,
-         0, 1, 0, 1,
-         0, 0, 1, 0
-         ], 4);
-    println!("Vector graph :");
-    vec_graph.display();
+    Ok(())
 }
