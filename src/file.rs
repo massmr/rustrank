@@ -1,43 +1,44 @@
 use std::error::Error;
-use csv::Reader;
+use std::collections::HashMap;
+use csv::ReaderBuilder;
 
-// Structure to store csv data
-#[derive(Debug)]
-pub struct Record{
-    emmiting_node: String,
-    receiving_node: String,
-}
+pub fn read_csv(file_path: &str) -> Result<Vec<Vec<i32>>, Box<dyn Error>> {
+    let mut rdr = ReaderBuilder::new().delimiter(b';').from_path(file_path)?;
+    let mut matrix = Vec::new();
+    let mut nodes = HashMap::new();
+    let mut node_count = 0;
 
-impl Record {
-    
-    // public function to read csv file
-    // input : file path &str
-    // output : Result Vector of Records || Boxed dynamic error
-    pub fn read_csv(file_path: &str) -> Result<Vec<Record>, Box<dyn Error>> {
-        
-        // Create csv reader - ? propagates error if file not found
-        let mut reader = Reader::from_path(file_path)?;
+    // Première passe pour compter les nœuds et créer le mapping
+    for result in rdr.records() {
+        let record = result?;
+        let input_address = record.get(0).unwrap().to_string();
+        let output_address = record.get(1).unwrap().to_string();
 
-        // Create vector to store records
-        let mut records = Vec::new();
-    
-        // push record to records vector
-        for result in reader.records() {
-            let record = result?;
-            records.push(Record {
-                emmiting_node: record[0].to_string(),
-                receiving_node: record[1].to_string(),
-            });
+        if !nodes.contains_key(&input_address) {
+            nodes.insert(input_address.clone(), node_count);
+            node_count += 1;
         }
-
-        // return records vector
-        Ok(records)
-    }
-
-    pub fn display_csv(records: &Vec<Record>) {
-        for record in records {
-            println!("Emmiting node : {}", record.emmiting_node);
-            println!("Receiving node : {}", record.receiving_node);
+        if !nodes.contains_key(&output_address) {
+            nodes.insert(output_address.clone(), node_count);
+            node_count += 1;
         }
     }
+
+    matrix.resize(node_count, vec![0; node_count]);
+
+    // Réinitialiser le lecteur CSV pour la deuxième passe
+    let mut rdr = ReaderBuilder::new().delimiter(b';').from_path(file_path)?;
+
+    // Deuxième passe pour remplir la matrice d'adjacence
+    for result in rdr.records() {
+        let record = result?;
+        let input_address = record.get(0).unwrap().to_string();
+        let output_address = record.get(1).unwrap().to_string();
+
+        let i = nodes[&input_address];
+        let j = nodes[&output_address];
+        matrix[i][j] = 1;
+    }
+
+    Ok(matrix)
 }
