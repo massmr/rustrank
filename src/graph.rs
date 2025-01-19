@@ -18,6 +18,11 @@ impl MatrixGraph {
         self.matrix_graph.len()
     }
 
+    // get reference to the matrix
+    pub fn get_matrix(&self) -> &Vec<Vec<i32>> {
+        &self.matrix_graph
+    }
+
     // displays the graph
     pub fn display(&self) {
         for i in 0..self.matrix_graph.len() {
@@ -46,6 +51,11 @@ impl VecGraph {
     // returns the number of nodes in the graph
     pub fn get_nodes(&self) -> usize {
         self.vec_graph.len() / self.col_num
+    }
+
+    // get reference to the vector
+    pub fn get_vec(&self) -> &Vec<i32> {
+        &self.vec_graph
     }
 
     // displays the graph
