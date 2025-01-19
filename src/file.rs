@@ -22,17 +22,17 @@ pub fn read_csv(file_path: &str) -> Result<Vec<Vec<i32>>, Box<dyn Error>> {
         // If the node is not in the HashMap, add it
         if !nodes.contains_key(&input_address) {
             nodes.insert(input_address.clone(), n);
-            node_count += 1;
+            n += 1;
         }
         // If the node is not in the HashMap, add it
         if !nodes.contains_key(&output_address) {
             nodes.insert(output_address.clone(), n);
-            node_count += 1;
+            n += 1;
         }
     }
 
     // Initialize the matrix with zeros
-    matrix.resize(node_count, vec![0; n]);
+    matrix.resize(n, vec![0; n]);
 
     // Reset the reader
     let mut rdr = ReaderBuilder::new().delimiter(b';').from_path(file_path)?;
