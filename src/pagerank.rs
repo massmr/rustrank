@@ -52,7 +52,7 @@ impl MatrixRank {
             // Initialize new_rank vector as jump factor
             // Add rank contribution of each linked node
             for i in 0..n {
-                new_rank[i] = JUMP_FACTOR;
+                new_rank[i] = jump_factor;
                 for j in 0..n {
                     if matrix[j][i] == 1 {
                         new_rank[i] += self.damping_factor * rank[j] / out_degree[j] as f64;
