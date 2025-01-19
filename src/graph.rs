@@ -3,6 +3,7 @@
 // Adjency matrix structure : 
 // Slow page rank computation
 // High abstraction level
+#[derive(Debug)]
 pub struct MatrixGraph {
     matrix_graph: Vec<Vec<i32>>,
 }

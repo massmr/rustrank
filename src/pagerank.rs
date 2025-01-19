@@ -36,7 +36,7 @@ impl MatrixRank {
         let mut new_rank = vec![0.0; n];
         let mut out_degree = vec![0; n];
         let matrix = self.graph.get_matrix();
-        const JUMP_FACTOR: f64 = (1.0 - self.damping_factor) / n as f64;
+        let JUMP_FACTOR: f64 = (1.0 - self.damping_factor) / n as f64;
 
         // Calculate the out degree of each node
         for i in 0..n {
