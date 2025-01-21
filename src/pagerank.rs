@@ -3,6 +3,7 @@ use crate::graph::MatrixGraph;
 #[derive(Debug)]
 pub struct MatrixRank {
     graph: MatrixGraph,
+    node_names: Vec<String>,
     damping_factor: f64,
     max_iter: usize,
     tolerance: f64,
@@ -12,11 +13,13 @@ impl MatrixRank {
     // returns a new instance of MatrixRank
     pub fn new(
         graph: MatrixGraph,
+        node_names: Vec<String>,
         damping_factor: f64, 
         max_iter: usize, 
         tolerance: f64) -> MatrixRank {
         MatrixRank {
             graph,
+            node_names,
             damping_factor,
             max_iter,
             tolerance,
@@ -48,7 +51,6 @@ impl MatrixRank {
         }
 
         for _ in 0..self.max_iter {
-
             // Initialize new_rank vector as jump factor
             // Add rank contribution of each linked node
             for i in 0..n {
@@ -77,8 +79,8 @@ impl MatrixRank {
         }
 
         // Display the rank of each node
-        for i in 0..n {
-            println!("Node {} : {}", i + 1, rank[i]);
+        for i in 0..n{
+            println!("Wallet {} : PR = {}", self.node_names[i] , rank[i]);
         }      
     }
 }
