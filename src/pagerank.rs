@@ -83,4 +83,22 @@ impl MatrixRank {
             println!("Wallet {} : PR = {}", self.node_names[i] , rank[i]);
         }      
     }
+
+    pub fn get_graph(&self) -> &MatrixGraph {
+        &self.graph
+    }
+
+    pub fn display_graph(&self) {
+        println!("Graph: {:?}", self.graph);
+        println!("Node names: {:?}", self.node_names);
+        println!("Damping factor: {:?}", self.damping_factor);
+        println!("Max iterations: {:?}", self.max_iter);
+        println!("Tolerance: {:?}", self.tolerance);
+    }
+
+    pub fn display_rank(&self) {
+        for i in 0..n{
+            println!("Wallet {} : PR = {}", self.node_names[i] , rank[i]);
+        }
+    }
 }
