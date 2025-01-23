@@ -1,5 +1,3 @@
-input_address;output_address;;;;;
-A;B;;;;;
-A;C;;;;;
-B;A;;;;;
-C;B;;;;;
+version https://git-lfs.github.com/spec/v1
+oid sha256:912a45d71bdd00bebbffe4a708cfa21a96a2d5cf44e3aa4010220a12fc548e6b
+size 75
